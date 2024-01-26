@@ -37,6 +37,10 @@ function App() {
     });
   };
 
+  const removeMovie = (id: string) => {
+    setMovies((prevState) => prevState.filter((movie) => movie.id !== id));
+  };
+
   return (
     <div className='container'>
       <div className='p-5 w-50 mx-auto'>
@@ -47,6 +51,7 @@ function App() {
             title={movie.title}
             id={movie.id}
             handleTitleChange={changeMovieTitle}
+            removeMovie={removeMovie}
             key={movie.id}
           />
         ))}
