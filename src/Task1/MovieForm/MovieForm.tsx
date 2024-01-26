@@ -11,7 +11,7 @@ interface Props {
 
 const MovieForm: React.FC<Props> = ({ onMovieFormSubmit }) => {
   const [movieInput, setMovieInput] = useState({
-    id: uuidv4(),
+    id: '',
     title: '',
   });
 
@@ -23,7 +23,10 @@ const MovieForm: React.FC<Props> = ({ onMovieFormSubmit }) => {
   };
 
   return (
-    <form className='d-flex' onSubmit={(e) => onMovieFormSubmit(e, movieInput)}>
+    <form
+      className='d-flex'
+      onSubmit={(e) => onMovieFormSubmit(e, { ...movieInput, id: uuidv4() })}
+    >
       <input
         type='text'
         className='form-control'
