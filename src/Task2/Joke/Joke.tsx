@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Joke = () => {
-  return <h4>Joke Text</h4>;
+interface Props {
+  jokeText: string
+}
+
+const Joke: React.FC<Props> = ({jokeText}) => {
+  return <h4>{jokeText}</h4>;
 };
 
 export default Joke;

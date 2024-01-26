@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import MovieForm from './Task1/MovieForm/MovieForm';
 import { Movie } from './types';
 import MovieItem from './Task1/MovieItem/MovieItem';
 import Joke from './Task2/Joke/Joke';
 import GetJokeButton from './Task2/GetJokeButton/GetJokeButton';
+import { url } from './constants';
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([
@@ -21,9 +22,12 @@ function App() {
       title: 'Star Wars',
     },
   ]);
+
   const [movieInput, setMovieInput] = useState({
     title: '',
   });
+
+  const [joke, setJoke] = useState('');
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMovieInput({ title: e.target.value });
@@ -50,6 +54,16 @@ function App() {
     setMovies((prevState) => prevState.filter((movie) => movie.id !== id));
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(url);
+      const jokeJson = await response.json();
+      const joke = jokeJson.value;
+      setJoke(joke);
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className='container'>
       <div className='p-5 mt-5 w-50 mx-auto border border-black border-2 rounded'>
@@ -71,7 +85,7 @@ function App() {
       </div>
       <div className='p-5 mt-5 w-50 mx-auto border border-black border-2 rounded text-center'>
         <p className='fs-5'>Random Chuck Norris joke:</p>
-        <Joke />
+        <Joke jokeText={joke} />
         <GetJokeButton />
       </div>
     </div>
