@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import MovieForm from './Task1/MovieForm/MovieForm';
 import { Joke, Movie } from './types';
 import MovieItem from './Task1/MovieItem/MovieItem';
@@ -8,20 +7,8 @@ import GetJokeButton from './Task2/GetJokeButton/GetJokeButton';
 import { url } from './constants';
 
 function App() {
-  const [movies, setMovies] = useState<Movie[]>([
-    {
-      id: uuidv4(),
-      title: 'Oppenheimer',
-    },
-    {
-      id: uuidv4(),
-      title: 'Game of Thrones',
-    },
-    {
-      id: uuidv4(),
-      title: 'Star Wars',
-    },
-  ]);
+  const moviesFromStorage = JSON.parse(localStorage.getItem('movies') || '[]');
+  const [movies, setMovies] = useState([...moviesFromStorage]);
 
   const [movieInput, setMovieInput] = useState({
     title: '',
@@ -53,6 +40,10 @@ function App() {
   const removeMovie = (id: string) => {
     setMovies((prevState) => prevState.filter((movie) => movie.id !== id));
   };
+
+  useEffect(() => {
+    localStorage.setItem('movies', JSON.stringify(movies));
+  }, [movies]);
 
   useEffect(() => {
     getRandomJoke();
