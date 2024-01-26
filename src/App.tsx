@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import MovieForm from './Task1/MovieForm/MovieForm';
-import { Movie } from './types';
+import { Joke, Movie } from './types';
 import MovieItem from './Task1/MovieItem/MovieItem';
-import Joke from './Task2/Joke/Joke';
+import JokeItem from './Task2/Joke/JokeItem';
 import GetJokeButton from './Task2/GetJokeButton/GetJokeButton';
 import { url } from './constants';
 
@@ -27,7 +27,7 @@ function App() {
     title: '',
   });
 
-  const [joke, setJoke] = useState('');
+  const [jokes, setJokes] = useState<Joke[]>([]);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMovieInput({ title: e.target.value });
@@ -55,14 +55,26 @@ function App() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(url);
-      const jokeJson = await response.json();
-      const joke = jokeJson.value;
-      setJoke(joke);
-    };
-    fetchData();
+    getRandomJoke();
   }, []);
+
+  const getRandomJoke = async () => {
+    const promises: Promise<Response>[] = [];
+    const jokesArray: Joke[] = [];
+    for (let i = 0; i < 5; i++) {
+      promises.push(fetch(url));
+    }
+    const responses = await Promise.all(promises);
+    for (const response of responses) {
+      const jokeData = await response.json();
+      const joke: Joke = {
+        id: jokeData.id,
+        text: jokeData.value,
+      };
+      jokesArray.push(joke);
+    }
+    setJokes(jokesArray);
+  };
 
   return (
     <div className='container'>
@@ -84,9 +96,11 @@ function App() {
         ))}
       </div>
       <div className='p-5 mt-5 w-50 mx-auto border border-black border-2 rounded text-center'>
-        <p className='fs-5'>Random Chuck Norris joke:</p>
-        <Joke jokeText={joke} />
-        <GetJokeButton />
+        <p className='fs-5'>Random Chuck Norris jokes:</p>
+        {jokes.map((joke) => (
+          <JokeItem jokeText={joke.text} key={joke.id} />
+        ))}
+        <GetJokeButton getJoke={getRandomJoke} noRender={url} />
       </div>
     </div>
   );

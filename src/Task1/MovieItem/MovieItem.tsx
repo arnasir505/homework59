@@ -19,6 +19,7 @@ const MovieItem: React.FC<Props> = React.memo(
           className='form-control fw-semibold fs-5'
           value={title}
           onChange={(e) => handleTitleChange(e, id)}
+          name='title'
         />
         <button
           type='button'
