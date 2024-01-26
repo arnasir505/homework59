@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 
 interface Props {
   getJoke: () => void;
-  noRender: string;
+  noRerender: string;
 }
 
 const GetJokeButton: React.FC<Props> = React.memo(
-  ({ getJoke, noRender }) => {
+  ({ getJoke, noRerender }) => {
     console.log('[Button] render');
 
     useEffect(() => {
-      console.log('[Button] mounted/updated');
+      console.log('[Button] mounted/updated', noRerender);
     }, []);
 
     return (
@@ -20,7 +20,7 @@ const GetJokeButton: React.FC<Props> = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    return prevProps.noRender === nextProps.noRender;
+    return prevProps.noRerender === nextProps.noRerender;
   }
 );
 

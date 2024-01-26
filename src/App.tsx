@@ -4,7 +4,7 @@ import { Joke, Movie } from './types';
 import MovieItem from './Task1/MovieItem/MovieItem';
 import JokeItem from './Task2/Joke/JokeItem';
 import GetJokeButton from './Task2/GetJokeButton/GetJokeButton';
-import { url } from './constants';
+import { noRerender, url } from './constants';
 
 function App() {
   const moviesFromStorage = JSON.parse(localStorage.getItem('movies') || '[]');
@@ -91,7 +91,7 @@ function App() {
         {jokes.map((joke) => (
           <JokeItem jokeText={joke.text} key={joke.id} />
         ))}
-        <GetJokeButton getJoke={getRandomJoke} noRender={url} />
+        <GetJokeButton getJoke={getRandomJoke} noRerender={noRerender} />
       </div>
     </div>
   );
