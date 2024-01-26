@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import MovieForm from './Task1/MovieForm/MovieForm';
 import { Movie } from './types';
 import MovieItem from './Task1/MovieItem/MovieItem';
+import Joke from './Task2/Joke/Joke';
+import GetJokeButton from './Task2/GetJokeButton/GetJokeButton';
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([
@@ -50,7 +52,7 @@ function App() {
 
   return (
     <div className='container'>
-      <div className='p-5 w-50 mx-auto'>
+      <div className='p-5 mt-5 w-50 mx-auto border border-black border-2 rounded'>
         <MovieForm
           onMovieFormSubmit={addMovie}
           movieInput={movieInput}
@@ -66,6 +68,11 @@ function App() {
             key={movie.id}
           />
         ))}
+      </div>
+      <div className='p-5 mt-5 w-50 mx-auto border border-black border-2 rounded text-center'>
+        <p className='fs-5'>Random Chuck Norris joke:</p>
+        <Joke />
+        <GetJokeButton />
       </div>
     </div>
   );
