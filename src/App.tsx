@@ -19,6 +19,13 @@ function App() {
       title: 'Star Wars',
     },
   ]);
+  const [movieInput, setMovieInput] = useState({
+    title: '',
+  });
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMovieInput({ title: e.target.value });
+  };
 
   const addMovie = (e: React.FormEvent<HTMLFormElement>, movie: Movie) => {
     e.preventDefault();
@@ -44,7 +51,11 @@ function App() {
   return (
     <div className='container'>
       <div className='p-5 w-50 mx-auto'>
-        <MovieForm onMovieFormSubmit={addMovie} />
+        <MovieForm
+          onMovieFormSubmit={addMovie}
+          movieInput={movieInput}
+          handleFormChange={handleFormChange}
+        />
         <p className='my-2'>To watch list:</p>
         {movies.map((movie) => (
           <MovieItem

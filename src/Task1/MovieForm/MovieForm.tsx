@@ -7,21 +7,15 @@ interface Props {
     e: React.FormEvent<HTMLFormElement>,
     movie: Movie
   ) => void;
+  movieInput: { title: string };
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const MovieForm: React.FC<Props> = ({ onMovieFormSubmit }) => {
-  const [movieInput, setMovieInput] = useState({
-    id: '',
-    title: '',
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMovieInput((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
+const MovieForm: React.FC<Props> = ({
+  onMovieFormSubmit,
+  movieInput,
+  handleFormChange,
+}) => {
   return (
     <form
       className='d-flex'
@@ -31,8 +25,9 @@ const MovieForm: React.FC<Props> = ({ onMovieFormSubmit }) => {
         type='text'
         className='form-control'
         name='title'
+        placeholder='Enter movie name'
         value={movieInput.title}
-        onChange={handleChange}
+        onChange={handleFormChange}
         required
       />
       <button type='submit' className='btn btn-primary ms-2'>
